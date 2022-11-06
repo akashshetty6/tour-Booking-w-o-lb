@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "",
+      "type": "com.publicissapient.tour.MyServerConfiguration",
+      "sourceType": "com.publicissapient.tour.MyServerConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "notification-server",
+      "type": "java.lang.String",
+      "sourceType": "com.publicissapient.tour.MyServerConfiguration"
+    },
+    {
+      "name": "registration-server",
+      "type": "java.lang.String",
+      "sourceType": "com.publicissapient.tour.MyServerConfiguration"
+    },
+    {
+      "name": "tour-server",
+      "type": "java.lang.String",
+      "sourceType": "com.publicissapient.tour.MyServerConfiguration"
+    }
+  ],
+  "hints": []
+}

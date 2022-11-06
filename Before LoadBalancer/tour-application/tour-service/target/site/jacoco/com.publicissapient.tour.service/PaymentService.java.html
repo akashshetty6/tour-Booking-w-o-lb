@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tour-service</a> &gt; <a href="index.source.html" class="el_package">com.publicissapient.tour.service</a> &gt; <span class="el_source">PaymentService.java</span></div><h1>PaymentService.java</h1><pre class="source lang-java linenums">package com.publicissapient.tour.service;
+
+import static com.publicissapient.tour.Constants.ACCEPT;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.exception.BookingNotFoundException;
+import com.publicissapient.tour.repository.BookingRepository;
+@Service
+<span class="fc" id="L20">public class PaymentService {</span>
+	
+	@Autowired
+	BookingRepository bookingRepo;
+	
+	@Autowired
+	RestTemplate restTemplate;
+	
+	@Value(&quot;${notification:http://localhost:8084/notify/sendMail/}&quot;)
+	String notification;
+	
+	public void updateStatus(int id) {
+<span class="fc" id="L32">		Optional&lt;Booking&gt; bookingOp =bookingRepo.findById(id);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		if(bookingOp.isPresent()) {</span>
+<span class="fc" id="L34">			bookingOp.get().setPaymentStatus(&quot;payment done&quot;);</span>
+<span class="fc" id="L35">			bookingRepo.save(bookingOp.get());</span>
+						
+<span class="fc" id="L37">			HttpHeaders header1 = new HttpHeaders();</span>
+<span class="fc" id="L38">			header1.set(ACCEPT, MediaType.APPLICATION_JSON_VALUE);</span>
+<span class="fc" id="L39">			HttpEntity&lt;Void&gt; req1 = new HttpEntity&lt;&gt;(header1); </span>
+			 
+<span class="fc" id="L41">			String email1= bookingOp.get().getUserName();</span>
+<span class="fc" id="L42">			restTemplate.exchange(notification+email1,</span>
+					HttpMethod.GET, req1,String.class);
+<span class="fc" id="L44">		}else {</span>
+<span class="fc" id="L45">			throw new BookingNotFoundException(&quot;Booking not found with this id&quot;);</span>
+		} 
+<span class="fc" id="L47">	} </span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

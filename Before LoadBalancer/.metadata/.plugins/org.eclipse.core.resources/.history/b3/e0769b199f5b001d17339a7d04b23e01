@@ -1,0 +1,9 @@
+server:
+   port: 8500
+   ssl:
+     enabled: true
+     key-alias: local-ssl
+     key-store: classpath:local-ssl.p12
+     key-store-type:  PKCS12
+     key-password : welcome1
+     key-store-password : welcome1

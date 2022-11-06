@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="notification-service" project="notification-service" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="com.publicissapient.tour.EntityTest" time="0.001" displayname="EntityTest" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.EntityTest]">
+    <testcase name="EmailTest1" classname="com.publicissapient.tour.EntityTest" time="0.001" displayname="EmailTest1()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.EntityTest]/[method:EmailTest1()]"/>
+    <testcase name="EmailTest" classname="com.publicissapient.tour.EntityTest" time="0.0" displayname="EmailTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.EntityTest]/[method:EmailTest()]"/>
+  </testsuite>
+  <testsuite name="com.publicissapient.tour.EmailSenderControllerTest" time="8.001" displayname="EmailSenderControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.EmailSenderControllerTest]">
+    <testcase name="sendMailTest" classname="com.publicissapient.tour.EmailSenderControllerTest" time="8.001" displayname="sendMailTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.EmailSenderControllerTest]/[method:sendMailTest()]"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tour-service</a> &gt; <a href="index.source.html" class="el_package">com.publicissapient.tour.service</a> &gt; <span class="el_source">AdminServiceImpl.java</span></div><h1>AdminServiceImpl.java</h1><pre class="source lang-java linenums">package com.publicissapient.tour.service;
+
+import static com.publicissapient.tour.Constants.ACCEPT;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.dto.PackageDTO;
+import com.publicissapient.tour.dto.RoleDTO;
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.entity.Packages;
+import com.publicissapient.tour.exception.BookingNotFoundException;
+import com.publicissapient.tour.exception.NotAStaffException;
+import com.publicissapient.tour.exception.PackageExistsException;
+import com.publicissapient.tour.exception.PackageNotFoundException;
+import com.publicissapient.tour.repository.BookingRepository;
+import com.publicissapient.tour.repository.PackageRepository;
+@Service
+<span class="fc" id="L33">public class AdminServiceImpl implements AdminService {</span>
+
+	@Autowired
+	PackageRepository packageRepo;
+
+	@Autowired
+	BookingRepository bookingRepo;
+
+	@Autowired
+	RestTemplate restTemplate;
+	
+	@Value(&quot;${registration:http://localhost:8087/adminRegistration/find/}&quot;)
+	String registration;
+	
+	
+	
+<span class="fc" id="L49">	private Logger logger = LogManager.getLogger(this.getClass().getName());</span>
+
+
+	@Override
+	public void create(PackageDTO packageDTO) throws PackageExistsException {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (packageRepo.existsByPackageDetails(packageDTO.getPackageDetails())) {</span>
+<span class="fc" id="L55">			logger.error(&quot;customer exists by this email {}&quot;,packageDTO.getPackageDetails());</span>
+
+<span class="fc" id="L57">			throw new PackageExistsException(&quot;package details exists&quot;);</span>
+		} else {
+<span class="fc" id="L59">			Packages packages = new Packages(packageDTO.getPackageDetails(), packageDTO.getFees(),</span>
+<span class="fc" id="L60">					packageDTO.getFacilities());</span>
+<span class="fc" id="L61">			packageRepo.save(packages);</span>
+<span class="fc" id="L62">			logger.info(&quot;Package Created&quot;);</span>
+		}
+
+<span class="fc" id="L65">	}</span>
+
+	public List&lt;Packages&gt; listAllPackages() {
+<span class="fc" id="L68">		logger.info(&quot;Package List : {}&quot;, packageRepo.findAll());</span>
+<span class="fc" id="L69">		return packageRepo.findAll();</span>
+	}
+
+	@Override
+    public void updateWholePackage(PackageDTO packageDTO) {
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if(packageRepo.existsById(packageDTO.getCode())) {</span>
+<span class="fc" id="L75">            Packages packages = new Packages(packageDTO.getCode(),packageDTO.getPackageDetails(),packageDTO.getFees(),packageDTO.getFacilities());</span>
+<span class="fc" id="L76">            packageRepo.save(packages);</span>
+<span class="fc" id="L77">            logger.info(&quot;Package Created&quot;);</span>
+<span class="fc" id="L78">        }</span>
+        else {
+<span class="fc" id="L80">        	logger.error(&quot;Package Not Found with this Id {}&quot;,packageDTO.getCode());</span>
+<span class="fc" id="L81">            throw new PackageNotFoundException(&quot;Package not found&quot;);</span>
+        }
+<span class="fc" id="L83">    }</span>
+
+	@Override
+	public void deletePackage(int code) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (packageRepo.existsById(code)) {</span>
+<span class="fc" id="L88">			packageRepo.deleteById(code);</span>
+<span class="fc" id="L89">        	logger.info(&quot;Package Deleted with this Id {}&quot;,code);</span>
+
+		} else {
+<span class="fc" id="L92">			logger.error(&quot;package doesn't exist by this id {}&quot;,code);</span>
+<span class="fc" id="L93">			throw new PackageNotFoundException(&quot;package doesn't exist by this id &quot; + code);</span>
+		}
+<span class="fc" id="L95">	}</span>
+
+	@Override
+	public void delete(int id) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		if (bookingRepo.existsById(id)) {</span>
+<span class="fc" id="L100">			bookingRepo.deleteById(id);</span>
+<span class="fc" id="L101">			logger.info(&quot;Booking Deleted with this Id {}&quot;,id);</span>
+		} else {
+<span class="fc" id="L103">			logger.error(&quot;Booking doesn't exist by this id {}&quot;,id);</span>
+<span class="fc" id="L104">			throw new BookingNotFoundException(&quot;booking not found by this id :&quot; + id);</span>
+		}
+
+<span class="fc" id="L107">	}</span>
+
+	@Override
+	public boolean assignStaff(int bookingId, int staffId)  {
+<span class="fc bfc" id="L111" title="All 2 branches covered.">		if (bookingRepo.existsById(bookingId)) {</span>
+
+<span class="fc" id="L113">			HttpHeaders header = new HttpHeaders();</span>
+<span class="fc" id="L114">			header.set(ACCEPT, MediaType.APPLICATION_JSON_VALUE);</span>
+<span class="fc" id="L115">			HttpEntity&lt;Void&gt; req = new HttpEntity&lt;&gt;(header);</span>
+
+<span class="fc" id="L117">			ResponseEntity&lt;CustomerDTO&gt; response = restTemplate.exchange(registration + staffId,</span>
+					HttpMethod.GET, req, CustomerDTO.class);
+
+<span class="fc" id="L120">				Set&lt;RoleDTO&gt; roles = response.getBody().getRoles();</span>
+<span class="fc" id="L121">				List&lt;RoleDTO&gt; list = new ArrayList&lt;&gt;(roles);</span>
+<span class="fc" id="L122">				boolean isStaff = false;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">				for (int i = 0; i &lt; roles.size(); i++) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">					if (list.get(i).getName().equals(&quot;STAFF&quot;)) {</span>
+<span class="fc" id="L125">						isStaff = true;</span>
+<span class="fc" id="L126">						break;</span>
+					}
+				}
+<span class="fc bfc" id="L129" title="All 2 branches covered.">				if (isStaff) {</span>
+<span class="fc" id="L130">					bookingRepo.assignStaff(bookingId, staffId);</span>
+<span class="fc" id="L131">					logger.info(&quot;Staff Assigned for Booking Id {}&quot;,bookingId);</span>
+<span class="fc" id="L132">					return true;</span>
+					
+				} else {
+<span class="fc" id="L135">					logger.error(&quot;Not a Staff&quot;);</span>
+<span class="fc" id="L136">					throw new NotAStaffException(&quot;not a staff&quot;);</span>
+				}
+
+		} else {
+<span class="fc" id="L140">			logger.error(&quot;Booking Not Found by this Id {}&quot;,bookingId);</span>
+<span class="fc" id="L141">			throw new BookingNotFoundException(&quot;Booking not found&quot;);</span>
+		}
+	}
+
+	@Override
+	public List&lt;Booking&gt; listAllBookings() {
+<span class="fc" id="L147">		logger.info(&quot;Booking List {}&quot;,bookingRepo.findAll());</span>
+<span class="fc" id="L148">		return bookingRepo.findAll();</span>
+	}
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

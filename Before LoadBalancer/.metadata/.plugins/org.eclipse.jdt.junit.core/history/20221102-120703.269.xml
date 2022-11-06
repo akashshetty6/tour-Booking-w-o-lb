@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="registrations-service" project="registrations-service" tests="9" started="9" failures="0" errors="0" ignored="0">
+  <testsuite name="com.publicissapient.tour.AdminRestControllerTest" time="0.435" displayname="AdminRestControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.AdminRestControllerTest]">
+    <testcase name="findByIdTest" classname="com.publicissapient.tour.AdminRestControllerTest" time="0.435" displayname="findByIdTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.AdminRestControllerTest]/[method:findByIdTest()]"/>
+  </testsuite>
+  <testsuite name="com.publicissapient.tour.DTOTest" time="0.012" displayname="DTOTest" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]">
+    <testcase name="RoleTest1" classname="com.publicissapient.tour.DTOTest" time="0.007" displayname="RoleTest1()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]/[method:RoleTest1()]"/>
+    <testcase name="RoleTest" classname="com.publicissapient.tour.DTOTest" time="0.001" displayname="RoleTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]/[method:RoleTest()]"/>
+    <testcase name="TestDTO" classname="com.publicissapient.tour.DTOTest" time="0.001" displayname="TestDTO()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]/[method:TestDTO()]"/>
+    <testcase name="MessageTest" classname="com.publicissapient.tour.DTOTest" time="0.001" displayname="MessageTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]/[method:MessageTest()]"/>
+    <testcase name="TestCustomerDTO" classname="com.publicissapient.tour.DTOTest" time="0.001" displayname="TestCustomerDTO()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.DTOTest]/[method:TestCustomerDTO()]"/>
+  </testsuite>
+  <testsuite name="com.publicissapient.tour.CustomerRestControllerTest" time="0.188" displayname="CustomerRestControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.CustomerRestControllerTest]">
+    <testcase name="saveTest" classname="com.publicissapient.tour.CustomerRestControllerTest" time="0.129" displayname="saveTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.CustomerRestControllerTest]/[method:saveTest()]"/>
+    <testcase name="checkUserByUserNameTest" classname="com.publicissapient.tour.CustomerRestControllerTest" time="0.038" displayname="checkUserByUserNameTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.CustomerRestControllerTest]/[method:checkUserByUserNameTest()]"/>
+    <testcase name="saveFailTest" classname="com.publicissapient.tour.CustomerRestControllerTest" time="0.017" displayname="saveFailTest()" uniqueid="[engine:junit-jupiter]/[class:com.publicissapient.tour.CustomerRestControllerTest]/[method:saveFailTest()]"/>
+  </testsuite>
+</testrun>

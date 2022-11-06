@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>SIGN IN PAGE</title>
+</head>
+<style>
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a {
+  display: block;
+  color: #000000;
+  padding: 5px;
+  text-decoration: none;
+}
+.dropdown-content a:hover {
+  color: #FFFFFF;
+  background-color: #00A4BD;
+}
+</style>
+<body>
+	<h1>SIGN IN PAGE</h1>
+
+	
+	<div class="dropdown">
+  <button>SIGN-IN AS </button>
+  <div class="dropdown-content">
+  <a href="admin.html">Admin</a>
+  <a href="Staff.html">Staff</a>
+  <a href="customer.html">Customer</a>
+  </div>
+</div>
+
+</body>
+</html>

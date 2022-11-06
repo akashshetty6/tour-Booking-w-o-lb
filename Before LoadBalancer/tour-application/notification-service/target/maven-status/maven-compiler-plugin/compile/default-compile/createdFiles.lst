@@ -1,0 +1,5 @@
+com\publicissapient\tour\controller\EmailSenderController.class
+com\publicissapient\tour\NotificationApplication.class
+com\publicissapient\tour\service\EmailSenderService.class
+com\publicissapient\tour\service\EmailSenderServiceImpl.class
+com\publicissapient\tour\entity\Email.class

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">registrations-service</a> &gt; <a href="index.source.html" class="el_package">com.publicissapient.tour.service</a> &gt; <span class="el_source">CustomerServiceImpl.java</span></div><h1>CustomerServiceImpl.java</h1><pre class="source lang-java linenums">package com.publicissapient.tour.service;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.entity.Customer;
+import com.publicissapient.tour.exception.CustomerExistsException;
+import com.publicissapient.tour.repository.CustomerRepository;
+
+@Service
+<span class="fc" id="L15">public class CustomerServiceImpl implements CustomerService {</span>
+	@Autowired
+	CustomerRepository customerRepo;
+
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+
+<span class="fc" id="L22">	private Logger logger = LogManager.getLogger(this.getClass().getName());</span>
+	
+	@Override
+	public Customer save(CustomerDTO customerDTO) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">		if (customerRepo.existsByEmail(customerDTO.getEmail())) {  </span>
+<span class="fc" id="L27">			logger.error(&quot;customer exists by this email {}&quot;,customerDTO.getEmail());</span>
+<span class="fc" id="L28">			throw new CustomerExistsException(&quot;Customer exists by this email &quot; + customerDTO.getEmail());</span>
+		} else {
+<span class="fc" id="L30">			customerDTO.setEnabled(true);</span>
+<span class="fc" id="L31">			customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));</span>
+
+<span class="fc" id="L33">			Customer customer = new Customer(customerDTO.getAge(), customerDTO.getFirstName(),</span>
+<span class="fc" id="L34">					customerDTO.getLastName(), customerDTO.getPhoneNo(), customerDTO.getEmail(),</span>
+<span class="fc" id="L35">					customerDTO.getAddress(), customerDTO.getGender(), customerDTO.getPassword(),</span>
+<span class="fc" id="L36">					customerDTO.isEnabled());</span>
+<span class="fc" id="L37">			logger.info(&quot;Registration successful&quot;);</span>
+<span class="fc" id="L38">			return customerRepo.save(customer);</span>
+		}
+	}
+	@Override
+	public boolean existsByEmail(String email) {
+<span class="fc" id="L43">		logger.info(&quot;Exists by mail : {}&quot;,customerRepo.existsByEmail(email));</span>
+<span class="fc" id="L44">		return customerRepo.existsByEmail(email);</span>
+	}
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,4 @@
+com\publicissapient\tour\CustomerRestControllerTest.class
+com\publicissapient\tour\DTOTest.class
+com\publicissapient\tour\AdminRestControllerTest.class
+com\publicissapient\tour\PaymentRestControllerTest.class

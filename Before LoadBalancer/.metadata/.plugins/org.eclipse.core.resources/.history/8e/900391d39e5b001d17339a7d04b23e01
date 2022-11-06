@@ -1,0 +1,7 @@
+server:
+   port: 8500
+   ssl:
+     enabled: true
+     key-alias: local-ssl
+     key-store: classpath:local-ssl.p12
+   

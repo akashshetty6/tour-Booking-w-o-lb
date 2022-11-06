@@ -1,0 +1,34 @@
+package com.publicissapient.tour.service;
+
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.publicissapient.tour.entity.Customer;
+import com.publicissapient.tour.exception.CustomerNotFoundException;
+import com.publicissapient.tour.repository.CustomerRepository;
+
+@Service
+public class AdminServiceImpl implements AdminService {
+
+@Autowired
+CustomerRepository custRepo;
+
+private Logger logger = LogManager.getLogger(this.getClass().getName());
+
+	public Customer findUserById(int id) {
+		Optional<Customer> custOp=custRepo.findById(id);
+		if(custOp.isPresent()) {
+			
+			logger.info("user found by this Id {}",id);
+			return custOp.get();
+		}else {
+		logger.error("user not found by this Id {}",id);
+		throw new CustomerNotFoundException("customer not found by this id");
+		}
+	}
+} 
+ 
