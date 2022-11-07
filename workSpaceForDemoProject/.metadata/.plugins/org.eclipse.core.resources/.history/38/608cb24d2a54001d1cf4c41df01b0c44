@@ -1,0 +1,28 @@
+package com.publicissapient.tour.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.exception.BookingNotFoundException;
+import com.publicissapient.tour.repository.BookingRepository;
+
+@Service
+public class PaymentService {
+	
+	@Autowired
+	BookingRepository bookingRepo;
+
+	
+	public void updateStatus(int id) {
+		Optional<Booking> bookingOp =bookingRepo.findById(id);
+		if(bookingOp.isPresent()) {
+			bookingOp.get().setPaymentStatus("payment done");
+			bookingRepo.save(bookingOp.get());
+		}else {
+			throw new BookingNotFoundException("Booking not found with this id");
+		}
+	} 
+}

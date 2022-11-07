@@ -1,0 +1,18 @@
+1665999994244	Rename package 'com.demo.spring'
+1666000282116	Delete element
+1666056575510	Copy compilation unit
+1666056591459	Rename type 'Booking'
+1666093484565	Copy compilation unit
+1666184629633	Rename type 'BookingService'
+1666184670868	Rename type 'PackageService'
+1666237872934	Delete element
+1666237878856	Delete element
+1666237942639	Rename type 'PackageRestController'
+1666237970764	Rename type 'PackageService'
+1666237989762	Rename type 'PackageServiceImpl'
+1666238522298	Copy compilation unit
+1666238534318	Copy compilation unit
+1666241375129	Delete elements
+1666241429186	Delete element
+1666244785898	Rename type 'PackageRestControllerTest'
+1666344762408	Rename type 'BookingRestControllerTest'

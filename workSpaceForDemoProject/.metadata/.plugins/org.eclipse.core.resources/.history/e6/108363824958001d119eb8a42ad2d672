@@ -1,0 +1,138 @@
+package com.publicissapient.tour.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.dto.PackageDTO;
+import com.publicissapient.tour.dto.RoleDTO;
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.entity.Packages;
+import com.publicissapient.tour.exception.BookingNotFoundException;
+import com.publicissapient.tour.exception.NotAStaffException;
+import com.publicissapient.tour.exception.PackageExistsException;
+import com.publicissapient.tour.exception.PackageNotFoundException;
+import com.publicissapient.tour.repository.BookingRepository;
+import com.publicissapient.tour.repository.PackageRepository;
+
+@Service
+public class AdminServiceImpl implements AdminService {
+
+	@Autowired
+	PackageRepository packageRepo;
+
+	@Autowired
+	BookingRepository bookingRepo;
+
+	@Autowired
+	RestTemplate restTemplate;
+	
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
+
+	@Override
+	public void create(PackageDTO packageDTO) throws PackageExistsException {
+		if (packageRepo.existsByPackageDetails(packageDTO.getPackageDetails())) {
+			logger.error("customer exists by this email {}",packageDTO.getPackageDetails());
+
+			throw new PackageExistsException("package details exists");
+		} else {
+			Packages packages = new Packages(packageDTO.getPackageDetails(), packageDTO.getFees(),
+					packageDTO.getFacilities());
+			packageRepo.save(packages);
+			logger.info("Package Created");
+		}
+
+	}
+
+	public List<Packages> listAllPackages() {
+		logger.info("Package List : {}", packageRepo.findAll());
+		return packageRepo.findAll();
+	}
+
+	@Override
+    public void updateWholePackage(PackageDTO packageDTO) {
+        if(packageRepo.existsById(packageDTO.getCode())) {
+            Packages packages = new Packages(packageDTO.getCode(),packageDTO.getPackageDetails(),packageDTO.getFees(),packageDTO.getFacilities());
+            packageRepo.save(packages);
+            logger.info("Package Created");
+        }
+        else {
+        	logger.info("Package Not Found with this Id {}",packageDTO.getCode());
+            throw new PackageNotFoundException("Package not found");
+        }
+    }
+
+	@Override
+	public void deletePackage(int code) {
+		if (packageRepo.existsById(code)) {
+			packageRepo.deleteById(code);
+		} else {
+			throw new PackageNotFoundException("package doesn't exist by this id " + code);
+		}
+	}
+
+	@Override
+	public void delete(int id) {
+		if (bookingRepo.existsById(id)) {
+			bookingRepo.deleteById(id);
+		} else {
+			throw new BookingNotFoundException("booking not found by this id :" + id);
+		}
+
+	}
+
+	@Override
+	public boolean assignStaff(int bookingId, int staffId) throws Exception {
+		if (bookingRepo.existsById(bookingId)) {
+
+			HttpHeaders header = new HttpHeaders();
+			header.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+			HttpEntity<Void> req = new HttpEntity<>(header);
+
+			ResponseEntity<CustomerDTO> response = restTemplate.exchange("http://localhost:8087/adminRegistration/find/" + staffId,
+					HttpMethod.GET, req, CustomerDTO.class);
+
+//			if (response.getBody().getEmail() != null) {
+				Set<RoleDTO> roles = response.getBody().getRoles();
+				List<RoleDTO> list = new ArrayList<>(roles);
+				boolean isStaff = false;
+				for (int i = 0; i < roles.size(); i++) {
+					if (list.get(i).getName().equals("STAFF")) {
+						isStaff = true;
+						break;
+					}
+				}
+				if (isStaff) {
+					bookingRepo.assignStaff(bookingId, staffId);
+					return true;
+					
+				} else {
+					throw new NotAStaffException("not a staff");
+				}
+
+//			} else {
+//				throw new StaffNotFoundException("staff not found");
+//			}
+		} else {
+			throw new BookingNotFoundException("Booking not found");
+		}
+	}
+
+	@Override
+	public List<Booking> listAllBookings() {
+		return bookingRepo.findAll();
+	}
+}
+

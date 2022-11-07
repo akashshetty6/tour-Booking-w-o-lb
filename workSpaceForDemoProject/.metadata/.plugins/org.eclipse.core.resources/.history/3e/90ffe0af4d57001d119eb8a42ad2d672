@@ -1,0 +1,105 @@
+package com.publicissapient.tour.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.publicissapient.tour.controller.PaymentController;
+import com.publicissapient.tour.dto.BookingDTO;
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.entity.Packages;
+import com.publicissapient.tour.exception.BookingNotFoundException;
+import com.publicissapient.tour.exception.PackageNotFoundException;
+import com.publicissapient.tour.exception.UserNameDoesNotExistsException;
+import com.publicissapient.tour.repository.BookingRepository;
+import com.publicissapient.tour.repository.PackageRepository;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+	@Autowired
+	RestTemplate rest;
+
+	@Autowired
+	PackageRepository packageRepo;
+
+	@Autowired
+	BookingRepository bookingRepo;
+
+	@Autowired
+	RestTemplate restTemplate;
+
+	@Autowired
+	PaymentController payment;
+
+	@Override
+	public List<Packages> listAllPackages() {
+		return packageRepo.findAll();
+	}
+
+	@Override
+	public Booking booking(BookingDTO bookingDTO) {
+
+		{
+			HttpHeaders header = new HttpHeaders();
+			header.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+			HttpEntity<Void> req = new HttpEntity<>(header);
+
+			String email = bookingDTO.getUserName();
+
+			ResponseEntity<Boolean> response = restTemplate.exchange("http://localhost:8087/customer/byEmail/" + email,
+					HttpMethod.GET, req, Boolean.class);
+System.out.println("response is "+response.getBody() );
+			if (Boolean.TRUE.equals(response.getBody())) {
+				System.out.println(bookingDTO.getCode());
+				if (packageRepo.existsById(bookingDTO.getCode())) {
+					Optional<Packages> packageOp=packageRepo.findById(bookingDTO.getCode());
+					if(packageOp.isPresent()) {
+					int fees = packageOp.get().getFees();
+					bookingDTO.setTotalPrice(fees * (bookingDTO.getNoOfPeople())); 
+					}
+
+//					bookingDTO.setTotalPrice(fees * (bookingDTO.getNoOfPeople()));
+
+					Booking booking = new Booking(bookingDTO.getUserName(), bookingDTO.getCode(),
+							bookingDTO.getFromDate(), bookingDTO.getNoOfPeople(), bookingDTO.getTotalPrice());
+					System.out.println("booking done");
+					return bookingRepo.save(booking);
+					
+//					  booking1;
+
+				} else {
+					throw new PackageNotFoundException("package not found for the id " + bookingDTO.getCode());
+				}
+			} else {
+				throw new UserNameDoesNotExistsException("user not found :" + bookingDTO.getUserName());
+			}
+
+		}
+
+	}
+
+	@Override
+	public void delete(int id) {
+		if (bookingRepo.existsById(id)) {
+			bookingRepo.deleteById(id);
+		} else {
+			throw new BookingNotFoundException("booking not found by this id :" + id);
+		}
+
+	}
+
+	public List<Booking> listBookings(String userName) {
+
+		return bookingRepo.findAllByUserName(userName);
+	}
+
+}

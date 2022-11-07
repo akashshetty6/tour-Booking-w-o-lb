@@ -1,0 +1,29 @@
+package com.publicissapient.tour.service;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmailSenderService {
+	
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	public void sendEmail(String email) {
+		SimpleMailMessage message=new  SimpleMailMessage();
+		message.setTo(email);
+		message.setFrom("tour.sender.acc@gmail.com");
+		message.setText("your booking is confirmed");
+		message.setSubject("TOUR BOOKING");
+		
+		mailSender.send(message);
+		logger.info("notification sent to this mail {}",email);
+		
+	}
+}

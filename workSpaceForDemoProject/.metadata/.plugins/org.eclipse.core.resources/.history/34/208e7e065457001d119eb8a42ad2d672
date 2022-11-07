@@ -1,0 +1,22 @@
+<div class="container-fluid bg-dark text-light py-3">
+						<header class="text-center">
+							<h1 class="display-10">Delete Booking</h1>
+						</header>
+
+					</div>
+					<section class="container">
+						<form class="row g-3" action="deleteBook" method="post">
+							<div class="col-md-8">
+								<label for="bookingid" class="form-label">Booking ID</label> <input
+									type="text" class="form-control" id="bookingId"
+									name="bookingId" required>
+
+							</div>
+
+							<div class="col-12">
+								<button type="submit" class="btn btn-primary">Delete
+									Booking</button>
+							</div>
+						</form>
+
+					</section>

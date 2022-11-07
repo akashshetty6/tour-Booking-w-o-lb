@@ -1,0 +1,34 @@
+package com.publicissapient.tour;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class GatewayApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(GatewayApplication.class, args);
+	}
+	
+	@Bean
+    public RouteLocator appRoutes(RouteLocatorBuilder routeBuilder,MyServerConfiguration config) {
+        String registrationserver = config.getRegistrationServer();
+        String tourserver = config.getTourServer();
+        String notificationserver = config.getNotificationServer();
+        
+        return routeBuilder
+                .routes()
+                .route(p->p.path("/customer/**").uri(registrationserver))
+                .route(p->p.path("/admin/**").uri(registrationserver))
+                .route(p->p.path("/booking/**").uri(tourserver))
+                .route(p->p.path("/packageadmin/**").uri(tourserver))
+                .route(p->p.path("/notification/**").uri(notificationserver))
+                .build();
+    }
+}
+	
+
+}

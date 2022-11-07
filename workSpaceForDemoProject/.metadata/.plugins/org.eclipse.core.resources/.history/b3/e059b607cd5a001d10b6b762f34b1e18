@@ -1,0 +1,83 @@
+version: '3'
+services:
+  eureka-server:
+    image: eureka-server:1.0
+    container_name: eureka-server
+    expose:
+    - "8761"
+    ports: 
+    - 8761:8761
+    
+  config-server:
+    image: config-server:1.0 #same as aws image
+    container_name: config-server
+    ports:
+    - "8888:8888"
+    environment:
+      - JAVA_OPTS=
+            -DGIT_URL=https://github.com/akashshetty6/config.git
+    depends_on:
+      - eureka-server  
+     
+    
+  registrations-service:
+    image: registrations-service:1.0
+    #container_name: registrations-service
+    ports:
+    - "8087"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -DDB_USER=admin -DDB_PASSWORD=welcome1 -DJDBC_URL=jdbc:mariadb://tour-server.cvpfxhvq6ebq.us-east-1.rds.amazonaws.com:3306/tourdb -DCONFIG_SERVER_URL=http://config-server:8888/
+    depends_on:
+      - eureka-server
+      - config-server
+    
+    links: 
+        - eureka-server
+        - config-server
+        
+  tour-service:
+    image: tour-service:1.0
+    #container_name: tour-service
+    ports:
+    - "8088"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -DDB_USER=admin -DDB_PASSWORD=welcome1 -DJDBC_URL=jdbc:mariadb://tour-server.cvpfxhvq6ebq.us-east-1.rds.amazonaws.com:3306/packagedb -DCONFIG_SERVER_URL=http://config-server:8888/
+    depends_on:
+      - eureka-server
+      - config-server
+      
+    links: 
+        - eureka-server
+        - config-server
+        
+  notification-service:
+    image: notification-service:1.0
+    #container_name: notification-service
+    ports:
+    - "8084"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -DCONFIG_SERVER_URL=http://config-server:8888/
+            
+    depends_on:
+      - eureka-server
+      - config-server    
+    
+    links: 
+        - eureka-server
+        - config-server
+        
+        
+  gateway:
+    image: gateway:2.7.4
+    #container_name: gateway-service
+    ports:
+    - "9082:9082"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER_URL=http://eureka-server:8761/eureka  
+      
+    links: 
+        - eureka-server

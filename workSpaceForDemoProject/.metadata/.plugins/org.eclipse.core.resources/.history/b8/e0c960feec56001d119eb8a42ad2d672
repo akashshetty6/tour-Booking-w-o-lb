@@ -1,0 +1,34 @@
+package com.publicissapient.tour;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.util.Message;
+
+
+class DTOTest {
+	
+	@Test
+	void TestDTO(){
+	CustomerDTO customer= new CustomerDTO(3, "Akash", "shetty", "9900101010", "akash@gmail.com",
+			"bhatkal", "male", "akash",true);
+	Assertions.assertEquals(3, customer.getAge());
+	Assertions.assertEquals("Akash", customer.getFirstName());
+	Assertions.assertEquals("shetty", customer.getLastName());
+	Assertions.assertEquals("9900101010", customer.getPhoneNo());
+	Assertions.assertEquals("akash@gmail.com", customer.getEmail());
+	Assertions.assertEquals("bhatkal", customer.getAddress());
+	Assertions.assertEquals("male", customer.getGender());
+	Assertions.assertEquals( "akash", customer.getPassword());
+	Assertions.assertEquals(true, customer.isEnabled());
+	
+	}
+	
+	@Test
+	void MessageTest() {
+		Message message=new Message("hello");
+		message.setStatus("world");
+		Assertions.assertEquals("world", message.getStatus());
+	}
+}

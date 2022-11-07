@@ -1,0 +1,19 @@
+2022-10-31 06:36:14.812  WARN 5788 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12h47m6s887ms306µs).
+2022-10-31 06:36:22.919  INFO 5788 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2022-10-31 06:41:22.927  INFO 5788 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2022-10-31 08:22:41.321  WARN 5788 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h37m26s236ms850µs).
+2022-10-31 08:23:19.166  INFO 5788 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2022-10-31 08:23:43.381  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2022-10-31 08:23:43.382  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application TOUR-SERVICE with eureka with status DOWN
+2022-10-31 08:23:43.383  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1667184823383, current=DOWN, previous=UP]
+2022-10-31 08:23:43.384  INFO 5788 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TOUR-SERVICE/WKWIN9309640.global.publicisgroupe.net:tour-service:8088: registering service...
+2022-10-31 08:23:43.401  INFO 5788 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TOUR-SERVICE/WKWIN9309640.global.publicisgroupe.net:tour-service:8088 - registration status: 204
+2022-10-31 08:23:43.426  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-10-31 08:23:43.442  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2022-10-31 08:23:43.489  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-31 08:23:43.500  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-10-31 08:23:43.506  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-10-31 08:23:43.507  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2022-10-31 08:23:46.537  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2022-10-31 08:23:46.558  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TOUR-SERVICE/WKWIN9309640.global.publicisgroupe.net:tour-service:8088 - deregister  status: 200
+2022-10-31 08:23:46.689  INFO 5788 --- [RMI TCP Connection(27)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient

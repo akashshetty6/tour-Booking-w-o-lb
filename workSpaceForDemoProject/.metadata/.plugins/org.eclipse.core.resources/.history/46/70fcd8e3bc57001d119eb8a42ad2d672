@@ -1,0 +1,78 @@
+package com.publicissapient.tour;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import com.publicissapient.tour.dto.BookingDTO;
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.dto.PackageDTO;
+
+class DTOTest {
+
+	@Test
+	void BookingDTOTest() {
+	
+		BookingDTO book=new BookingDTO();
+		book.setCode(1);
+		book.setNoOfPeople(1);
+		book.setTotalPrice(300.0);
+		book.setUserName("akash");	
+		book.setFromDate("2022-10-20");
+		
+		assertEquals(1, book.getCode());
+	    assertEquals(1,book.getNoOfPeople());
+	    assertEquals(300.0,book.getTotalPrice());
+	    assertEquals("akash",book.getUserName());
+	    assertEquals("2022-10-20", book.getFromDate());
+	}
+	
+	@Test
+	void BookingDTO1Test() {
+	
+		BookingDTO book=new BookingDTO("akash",3,"2022",3,3.3);
+		book.setCode(1);
+		book.setNoOfPeople(1);
+		book.setTotalPrice(300.0);
+		book.setUserName("akash");	
+		book.setFromDate("2022-10-20");
+		
+		assertEquals(1, book.getCode());
+	    assertEquals(1,book.getNoOfPeople());
+	    assertEquals(300.0,book.getTotalPrice());
+	    assertEquals("akash",book.getUserName());
+	    assertEquals("2022-10-20", book.getFromDate());
+	}
+	
+	@Test
+	void TestDTO(){
+	CustomerDTO customer= new CustomerDTO(3, "Akash", "shetty", "9900101010", "akash@gmail.com",
+			"bhatkal", "male", "akash",true);
+	Assertions.assertEquals(3, customer.getAge());
+	Assertions.assertEquals("Akash", customer.getFirstName());
+	Assertions.assertEquals("shetty", customer.getLastName());
+	Assertions.assertEquals("9900101010", customer.getPhoneNo());
+	Assertions.assertEquals("akash@gmail.com", customer.getEmail());
+	Assertions.assertEquals("bhatkal", customer.getAddress());
+	Assertions.assertEquals("male", customer.getGender());
+	Assertions.assertEquals( "akash", customer.getPassword());
+	Assertions.assertEquals(true, customer.isEnabled());
+	
+	}
+	
+	@Test 
+	void PackageDTOTest() {
+		PackageDTO pack=new PackageDTO();
+		pack.setCode(1);
+		pack.setFacilities("AC ROOM");
+		pack.setFees(1000);
+		pack.setPackageDetails("bang-mys");
+		
+	    assertEquals(1,pack.getCode());
+	    assertEquals("AC ROOM",pack.getFacilities());
+	    assertEquals(1000,pack.getFees());
+	    assertEquals("bang-mys",pack.getPackageDetails());
+	} 
+}
+   

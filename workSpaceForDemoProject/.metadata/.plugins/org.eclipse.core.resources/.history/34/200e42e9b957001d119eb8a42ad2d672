@@ -1,0 +1,99 @@
+package com.publicissapient.tour;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.entity.Booking;
+import com.publicissapient.tour.repository.BookingRepository;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class PaymentRestControllerTest {
+
+	@Autowired
+	MockMvc mvc;
+
+	@MockBean
+	BookingRepository bookingRepo;
+
+	@Mock
+	RestTemplate restTemplate;
+
+	@Autowired
+	RestTemplate rest;
+
+	@Test
+	void updateStatusTest() throws Exception {
+		Booking booking = new Booking("akash@gmail.com", 1, 3, 330.0);
+
+		when(bookingRepo.findById(1)).thenReturn(Optional.of(booking));
+		mvc.perform(get("/v1/payment/1")).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.status").value("Status updated"));
+
+		HttpHeaders header1 = new HttpHeaders();
+//		header1.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		HttpEntity<Void> req1 = new HttpEntity<>(header1);
+
+		String email = "akash@gmail.com";
+		rest.exchange("http://localhost:8084/notify/sendMail/" + email, HttpMethod.GET, req1, String.class);
+//		
+//		String message=response.getBody();
+//		System.out.println(message);
+
+//		String message="notification Sent";
+//		when(restTemplate.exchange("http://localhost:8084/notify/sendMail/"+"akash",
+//					HttpMethod.GET, req1,String.class)).thenReturn(ResponseEntity<String>());
+//		
+//		mvc.perform(get("/v1/payment/2")).andDo(print()).andExpect(status().is4xxClientError());
+
+	}
+
+	void updateStatus1Test() throws Exception {
+		Booking booking = new Booking("akash@gmail.com", 1, 3, 330.0);
+
+		when(bookingRepo.findById(1)).thenReturn(Optional.of(booking));
+		mvc.perform(get("/v1/payment/1")).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.status").value("Status updated"));
+
+		HttpHeaders header = new HttpHeaders();
+		header.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		HttpEntity<Void> req = new HttpEntity<>(header);
+
+		String email = "akash@gmail.com";
+
+		ResponseEntity<String> response = rest.exchange("http://localhost:8084/notify/sendMail/" + email,
+				HttpMethod.GET, req, String.class);
+
+		String message=response.getBody();
+		
+		when( restTemplate.exchange("http://localhost:8084/notify/sendMail/" + email,
+				HttpMethod.GET, req, String.class))
+				.thenReturn(new ResponseEntity<String>(message, HttpStatus.OK));
+
+		mvc.perform(patch("/admin/addStaff/1/1")).andDo(print()).andExpect(content().string("not a staff"));
+	}
+
+}

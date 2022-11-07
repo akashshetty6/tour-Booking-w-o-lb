@@ -1,0 +1,19 @@
+package com.publicissapient.tour.repository;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.publicissapient.tour.entity.Booking;
+@Repository
+public interface BookingRepository extends JpaRepository<Booking, Integer> {
+
+	@Query("Update  Booking b and set b.staffId=:staffId where b.bookingId=:bookingId")
+	@Transactional
+	void assignStaff(int bookingId, int staffId);
+
+	//public List<Booking> findAllByCustomerId(Integer customerId);
+
+}

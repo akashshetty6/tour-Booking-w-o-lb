@@ -1,0 +1,52 @@
+package com.publicissapient.tour.controllers;
+
+import java.net.URI;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+import com.publicissapient.tour.repository.CustomerRepository;
+import com.publicissapient.tour.service.CustomerServiceImpl;
+import com.publicissapient.tour.util.Message;
+
+import io.micrometer.core.annotation.Timed;
+
+@RestController
+@RequestMapping("/registration")
+public class CustomerRestController {
+	@Autowired
+	CustomerRepository customerRepo;
+
+	@Autowired
+	CustomerServiceImpl customerServiceImpl;
+	
+	private Logger logger = LogManager.getLogger(this.getClass().getName());	
+	
+	
+	@PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Timed(value="requests.count.save")
+	public ResponseEntity<Message> save(@RequestBody CustomerDTO customerDTO)  {
+		customerServiceImpl.save(customerDTO);
+		logger.info("call for registration");
+		return ResponseEntity.ok(new Message("customer saved"));
+	}  
+
+	
+	@GetMapping(path = "/byEmail/{email}")
+	@Timed(value="requests.count.checkUserByUserName")
+	public ResponseEntity<Boolean> checkUserByUserName(@PathVariable("email") String email) {
+		logger.info("call for exists by email");
+		return ResponseEntity.ok(customerServiceImpl.existsByEmail(email)); 
+	}	
+}

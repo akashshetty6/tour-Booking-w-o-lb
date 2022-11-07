@@ -1,0 +1,27 @@
+package com.publicissapient.tour.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.publicissapient.tour.entity.Customer;
+import com.publicissapient.tour.service.AdminServiceImpl;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminRestController {
+	
+	@Autowired
+	AdminServiceImpl adminServiceImpl;
+	
+	@GetMapping(path = "/find/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
+		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
+	}
+ 
+}
+  

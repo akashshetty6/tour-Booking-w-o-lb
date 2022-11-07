@@ -1,0 +1,45 @@
+package com.publicissapient.tour;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Date;
+
+import org.junit.jupiter.api.Test;
+
+import com.publicissapient.tour.dto.BookingDTO;
+import com.publicissapient.tour.dto.PackageDTO;
+
+class DTOTest {
+
+	@Test
+	void BookingDTOTest() {
+		Date date=new Date(2001, 10, 1);
+		BookingDTO book=new BookingDTO();
+		book.setCode(1);
+		book.setNoOfPeople(1);
+		book.setTotalPrice(300.0);
+		book.setUserName("akash");	
+		book.setFromDate(date);
+		
+		assertEquals(1, book.getCode());
+	    assertEquals(1,book.getNoOfPeople());
+	    assertEquals(300.0,book.getTotalPrice());
+	    assertEquals("akash",book.getUserName());
+	    assertEquals(date, book.getFromDate());
+	}
+	
+	@Test
+	public void PackageDTOTest() {
+		PackageDTO pack=new PackageDTO();
+		pack.setCode(1);
+		pack.setFacilities("AC ROOM");
+		pack.setFees(1000);
+		pack.setPackageDetails("bang-mys");
+		
+	    assertEquals(1,pack.getCode());
+	    assertEquals("AC ROOM",pack.getFacilities());
+	    assertEquals(1000,pack.getFees());
+	    assertEquals("bang-mys",pack.getPackageDetails());
+	} 
+}
+   

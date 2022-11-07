@@ -1,0 +1,21 @@
+server:
+  port : 8084
+  
+  
+spring:
+  application:
+     name: notification-service
+     
+  mail:
+    host: smtp.gmail.com
+    username: tour.sender.acc@gmail.com
+    password: fhoazfbmxgofycwq
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  config:
+    import: optional:configserver:http://localhost:8888/  

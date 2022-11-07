@@ -1,0 +1,15 @@
+package com.publicissapient.tour.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.publicissapient.tour.entity.Booking;
+
+public interface BookingRepository extends JpaRepository<Booking, Integer> {
+
+	@Query("Update Booking b where b.bookingId=:bookingId and b.staffId=:staffId")
+	void assignStaff(int bookingId, int staffId);
+
+	//public List<Booking> findAllByCustomerId(Integer customerId);
+
+}

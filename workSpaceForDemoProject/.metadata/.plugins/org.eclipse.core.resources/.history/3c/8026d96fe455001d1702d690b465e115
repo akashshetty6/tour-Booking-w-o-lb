@@ -1,0 +1,20 @@
+server:
+  port : 8084
+  
+spring:
+   
+spring:
+  application:
+     name: eureka-server
+  mail:
+    host: smtp.gmail.com
+    username: tour.sender.acc@gmail.com
+    password: fhoazfbmxgofycwq
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    

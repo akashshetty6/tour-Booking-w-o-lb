@@ -1,0 +1,37 @@
+package com.publicissapient.tour.dto;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BookingDTO {
+
+//	private Integer bookingId;
+
+	private String userName;
+
+	private Integer code;
+
+	private String fromDate;
+
+	private Integer noOfPeople;
+
+	private double totalPrice;
+
+	public BookingDTO() {
+		super();
+	}
+
+//	public BookingDTO(Integer bookingId, Date fromDate, Integer noOfPeople, double totalPrice) {
+//		super();
+//		this.bookingId = bookingId;
+//		this.fromDate = fromDate;
+//		this.noOfPeople = noOfPeople;
+//		this.totalPrice = totalPrice;
+//	}
+
+
+}

@@ -1,0 +1,65 @@
+package com.publicissapient.tour.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.publicissapient.tour.dto.PackageDTO;
+import com.publicissapient.tour.entity.Packages;
+import com.publicissapient.tour.service.AdminServiceImpl;
+import com.publicissapient.tour.util.Message;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminRestController {
+
+	@Autowired
+	AdminServiceImpl adminServiceImpl;
+
+	@PostMapping(path = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Message> create(@RequestBody PackageDTO packageDTO) {
+		System.out.println("hello from shhxjjdcjkhnkd");
+		adminServiceImpl.create(packageDTO);
+		return ResponseEntity.ok(new Message("packages created"));
+	}
+
+	@GetMapping(path = "/listPackage")
+	public ResponseEntity<List<Packages>> listAllPackages() {
+		return ResponseEntity.ok(adminServiceImpl.listAllPackages());
+	}
+
+	@PutMapping(path="/updatePackage",consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Message> updateWholePackage(@RequestBody PackageDTO packageDTO){
+		adminServiceImpl.updateWholePackage(packageDto);
+		return ResponseEntity.ok(new Message("Package updated successfully"));
+    }
+
+	@DeleteMapping(path = "/deletePackage/{code}")
+	public ResponseEntity<Message> deletePackage(@PathVariable("code") int code) {
+		adminServiceImpl.deletePackage(code);
+		return ResponseEntity.ok(new Message("package deleted by this id :" + code));
+	}
+
+	@DeleteMapping(path = "/delete/{bookingId}")
+	public ResponseEntity<Message> delete(@PathVariable("bookingId") int id) throws Exception {
+		adminServiceImpl.delete(id);
+		return ResponseEntity.ok(new Message("Booking is deleted"));
+	}
+
+	@PatchMapping("/addStaff/{bookingId}/{staffId}")
+	public ResponseEntity assignStaff(@PathVariable("bookingId") int bId, @PathVariable("staffId") int sId) {
+		adminServiceImpl.assignStaff(bId, sId);
+		return ResponseEntity.ok(new Message("staff assigned"));
+	}
+}

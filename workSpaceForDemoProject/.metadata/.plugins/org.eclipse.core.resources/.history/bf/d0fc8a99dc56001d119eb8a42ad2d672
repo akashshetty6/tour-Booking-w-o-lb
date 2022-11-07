@@ -1,0 +1,5 @@
+package com.publicissapient.tour.exception;
+
+public class NotAStaffException extends Exception {
+
+}

@@ -1,0 +1,36 @@
+package com.publicissapient.tour;
+
+//import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.publicissapient.tour.entity.Email;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class EmailSenderControllerTest {
+	
+	@Autowired
+	MockMvc mvc;
+
+	@Test
+	void sendMailTest() throws Exception {
+		Email email=new Email("ak@gmail.com");
+		ObjectMapper mapper = new ObjectMapper();
+		String empJson = mapper.writeValueAsString(email);
+
+		mvc.perform(get("/v1/notify/sendMail/").content(empJson).contentType(MediaType.APPLICATION_JSON_VALUE))
+		.andDo(print()).andExpect(status().isOk()).andExpect(content().string("notification sent"));
+		
+	}
+}

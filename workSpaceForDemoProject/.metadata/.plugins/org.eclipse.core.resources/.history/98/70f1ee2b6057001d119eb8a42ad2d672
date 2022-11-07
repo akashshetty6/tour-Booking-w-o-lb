@@ -1,0 +1,57 @@
+package com.publicissapient.tour.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="BOOKING")
+public class Booking {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer bookingId;
+	
+	private String userName;
+	
+	private Integer code;
+
+	private Date fromDate;
+	
+	private Integer noOfPeople;
+
+	private double totalPrice;
+	
+	private String paymentStatus="pending";
+	
+	private Integer staffId=null;
+	
+	
+	public Booking( String userName, Integer code, Date fromDate, Integer noOfPeople, double totalPrice) {
+	super();
+	this.userName = userName;
+	this.code = code;
+	this.fromDate = fromDate;
+	this.noOfPeople = noOfPeople;
+	this.totalPrice = totalPrice;
+} 
+	public Booking( String userName, Integer code,Integer noOfPeople, double totalPrice) {
+	super();
+	this.userName = userName;
+	this.code = code;
+	this.noOfPeople = noOfPeople;
+	this.totalPrice = totalPrice;
+} 
+	
+}

@@ -1,0 +1,67 @@
+package com.publicissapient.tour;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.publicissapient.tour.entity.Customer;
+import com.publicissapient.tour.repository.CustomerRepository;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class CustomerRestControllerTest {
+
+	@Autowired
+	MockMvc mvc;
+
+	@MockBean
+	CustomerRepository customerRepo;
+
+	@Test
+	void saveTest() throws Exception {
+		Customer customer = new Customer(20, "akash", "shetty", "812334003", "a@gmail.com", "bhatkal", "male","akash", true);
+		ObjectMapper mapper = new ObjectMapper();
+		String empJson = mapper.writeValueAsString(customer);
+
+		when(customerRepo.existsByEmail("a@gmail.com")).thenReturn(false);
+
+		mvc.perform(post("/customer/save").content(empJson).contentType(MediaType.APPLICATION_JSON_VALUE).with(user("akae@gmail.com").password("akash")))
+				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("customer saved"));
+
+	}
+
+	@Test
+	void saveFailTest() throws Exception {
+		Customer customer = new Customer(1,20, "akash", "shetty", "812334003", "a@gmail.com", "bhatkal", "male","akash", true);
+		ObjectMapper mapper = new ObjectMapper();
+		String empJson = mapper.writeValueAsString(customer);
+		when(customerRepo.existsByEmail("a@gmail.com")).thenReturn(true);
+
+		mvc.perform(post("/customer/save").content(empJson).contentType(MediaType.APPLICATION_JSON_VALUE).with(user("akae@gmail.com").password("akash")))
+				.andDo(print()).andExpect(status().is4xxClientError())
+				.andExpect((ResultMatcher) content().string("Customer exists by this email a@gmail.com"));
+	}
+
+	@Test
+	void checkUserByUserNameTest() throws Exception {
+		when(customerRepo.existsByEmail("/customer/byEmail/a@gmail.com")).thenReturn(true);
+
+		mvc.perform(get("/customer/byEmail/a@gmail.com").with(user("akae@gmail.com").password("akash"))).andExpect(status().isOk());
+	}
+
+}

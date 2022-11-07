@@ -1,0 +1,5 @@
+package com.publicissapient.tour.entity;
+
+public class Role {
+
+}

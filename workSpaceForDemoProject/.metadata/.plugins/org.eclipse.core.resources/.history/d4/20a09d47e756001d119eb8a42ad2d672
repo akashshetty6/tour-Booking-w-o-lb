@@ -1,0 +1,18 @@
+package com.publicissapient.tour;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.publicissapient.tour.dto.CustomerDTO;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class DTOTest {
+	
+	@Test
+	void TestDTO(){
+	CustomerDTO customer= new CustomerDTO(3, "Akash", "shetty", "9900101010", "akash@gmail.com",
+			"bhatkal", "male", "akash",true);
+	}
+}

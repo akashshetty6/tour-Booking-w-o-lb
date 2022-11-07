@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>list packages</h1>
+
+<div>
+		<table class="table table-dark table-hover">
+
+			<tr>
+				<th>Code</th>
+				<th>Package Details</th>
+				<th>Fees</th>
+				<th>Facilities</th>
+			</tr>
+
+			<tr th:each="emp:${empList}">
+				<td><span th:text="${emp.empId}"></span></td>
+				<td><span th:text="${emp.name}"></span></td>
+				<td><span th:text="${emp.city}"></span></td>
+				<td><span th:text="${emp.salary}"></span></td>
+			</tr>
+		</table>
+	</div>
+  ...
+</table>
+</body>
+</html>
