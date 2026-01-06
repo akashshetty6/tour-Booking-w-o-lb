@@ -42,6 +42,7 @@ public class AdminRestController {
 	@Timed(value="requests.count.findById")
 	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
 		logger.info("call for findUserById");
+		logger.info("call for findUserById");
 		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
 	}
 
