@@ -34,7 +34,7 @@ public class AdminRestController {
 	@GetMapping(path = "/find/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed(value="requests.count.findById")
 	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
-		logger.info("call for find User ById");
+		logger.info("call for findUserById");
 		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
 	}
 
