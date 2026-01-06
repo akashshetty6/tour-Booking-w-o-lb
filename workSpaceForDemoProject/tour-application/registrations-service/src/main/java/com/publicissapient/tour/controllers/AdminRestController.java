@@ -30,28 +30,6 @@ public class AdminRestController {
 		logger.info("call for findUserById");
 		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
 	}
-
-	@GetMapping(path = "/find/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed(value="requests.count.findById")
-	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
-		logger.info("call for findUserById");
-		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
-	}
-
-	@GetMapping(path = "/find/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed(value="requests.count.findById")
-	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
-		logger.info("call for findUserById");
-		logger.info("call for findUserById");
-		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
-	}
-
-	@GetMapping(path = "/find/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed(value="requests.count.findById")
-	public ResponseEntity<Customer> findById(@PathVariable("customerId") int id) {
-		logger.info("call for findUserById");
-		return ResponseEntity.ok(adminServiceImpl.findUserById(id));
-	}
  
 }
   
